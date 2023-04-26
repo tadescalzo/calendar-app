@@ -4,6 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { addHours } from "date-fns";
 import { getMessagesES, localizer } from "../../helpers";
 import { CalendarEvent } from "../components/CalendarEvent";
+import { useState } from "react";
 
 
 
@@ -21,6 +22,8 @@ const events = [{
 }]
 
 export const CalendarPage = () => {
+
+  const [lastView, setlastView] = useState(localStorage.getItem('lastView') || 'week')
 
   const eventStyleGetter = ( event, start, end, isSelected ) =>{
 
@@ -46,6 +49,8 @@ export const CalendarPage = () => {
 
   const onViewChange = ( event ) => {
     console.log({ viewChanged: event })
+    localStorage.setItem('lastView', event)
+    setlastView(event)
   }
 
 
@@ -57,6 +62,7 @@ export const CalendarPage = () => {
     culture="es"
       localizer={localizer}
       events={events}
+      defaultView={lastView}
       startAccessor="start"
       endAccessor="end"
       style={{ height: 'calc( 100vh - 80px )' }}
